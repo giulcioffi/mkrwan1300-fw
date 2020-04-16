@@ -3,4 +3,16 @@
 	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
 		<item value="C:\Users\Giulia Cioffi\Documents\Arduino\en.i-cube_lrwan\STM32CubeExpansion_LRWAN_V1.3.1\Projects\B-L072Z-LRWAN1\Applications\LoRa\AT_Slave"/>
 	</list>
+	<section name="ResourceNavigator">
+		<item value="Aggregate for window 1586940618771" key="ResourceWorkingSetFilter.STORE_WORKING_SET"/>
+		<item value="1" key="ResourceViewer.STORE_SORT_TYPE"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item value="619" key="DIALOG_X_ORIGIN"/>
+		<item value="274" key="DIALOG_Y_ORIGIN"/>
+	</section>
 </section>

@@ -915,6 +915,10 @@ typedef struct sMcpsIndication
      * Set if a DeviceTimeAns MAC command was received.
      */
     bool DeviceTimeAnsReceived;
+    /*!
+     * Set the region currently in use
+     */
+    //LoRaMacRegion_t Region;
 }McpsIndication_t;
 
 /*!

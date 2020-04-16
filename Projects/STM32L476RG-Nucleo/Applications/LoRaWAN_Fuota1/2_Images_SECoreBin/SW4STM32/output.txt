@@ -1,0 +1,2 @@
+prebuild.sh : started
+../../../Binary/ECCKEY.txt
