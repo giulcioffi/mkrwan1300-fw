@@ -35,6 +35,7 @@ Maintainer: Miguel Luis, Gregory Cristian and Wael Guibene
 
 #ifndef __LORA_MAIN_H__
 #define __LORA_MAIN_H__
+//LORA_MAIN_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -222,7 +223,7 @@ typedef struct sLoRaMainCallback
  * @param [IN] application parmaters
  * @retval none
  */
-void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam);
+void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam, LoRaMacRegion_t region);
 
 /**
  * @brief run Lora classA state Machine
@@ -388,10 +389,18 @@ int8_t lora_config_tx_datarate_get(void);
  */
 LoRaMacRegion_t lora_region_get(void);
 
+/**
+ * @brief triggers a reinit when band gets changed
+ * @param none
+ * @retval none
+ */
+void TriggerReinit( LoRaMacRegion_t region );
+
 #ifdef __cplusplus
 }
 #endif
 
+//LORA_MAIN_H
 #endif /*__LORA_MAIN_H__*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -18,10 +18,10 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
+#include "lora.h"
 #include "hw.h"
 #include "timeServer.h"
 #include "LoRaMac.h"
-#include "lora.h"
 #include "lora-test.h"
 #include "tiny_sscanf.h"
 
@@ -29,7 +29,7 @@
 /**
   * Lora Configuration
   */
-typedef struct
+typedef struct lorastruct
 {
   LoraState_t otaa;        /*< ENABLE if over the air activation, DISABLE otherwise */
   LoraState_t duty_cycle;  /*< ENABLE if dutycyle is on, DISABLE otherwise */
@@ -53,11 +53,11 @@ typedef struct
 static lora_configuration_t lora_config =
 {
   .otaa = LORA_ENABLE,
-#if defined( REGION_EU868 )
-  .duty_cycle = LORA_ENABLE,
-#else
+//#if defined( REGION_EU868 )
+//  .duty_cycle = LORA_ENABLE,
+//#else
   .duty_cycle = LORA_DISABLE,
-#endif
+//#endif
   .DevEui = LORAWAN_DEVICE_EUI,
   .JoinEui = LORAWAN_JOIN_EUI,
   .AppKey = LORAWAN_APP_KEY,
@@ -87,15 +87,15 @@ static lora_configuration_t lora_config =
 
 #include "LoRaMacTest.h"
 
-#if defined( REGION_EU868 ) || defined( REGION_RU864 ) || defined( REGION_CN779 ) || defined( REGION_EU433 )
+//#if defined( REGION_EU868 ) || defined( REGION_RU864 ) || defined( REGION_CN779 ) || defined( REGION_EU433 )
 /*!
  * LoRaWAN ETSI duty cycle control enable/disable
  *
  * \remark Please note that ETSI mandates duty cycled transmissions. Use only for test purposes
  */
-#define LORAWAN_DUTYCYCLE_ON                        true
+//#define LORAWAN_DUTYCYCLE_ON                        true
 
-#endif
+//#endif
 
 #ifdef LORAMAC_CLASSB_ENABLED
 /*!
@@ -244,6 +244,9 @@ static void McpsIndication(McpsIndication_t *mcpsIndication)
         break;
       default:
 
+        if ((mcpsIndication->Region == LORAMAC_REGION_EU868) || (mcpsIndication->Region == LORAMAC_REGION_RU864) || (mcpsIndication->Region == LORAMAC_REGION_CN779) || (mcpsIndication->Region == LORAMAC_REGION_EU433)) {
+          #define LORAWAN_DUTYCYCLE_ON                        true
+        }
         AppData.Port = mcpsIndication->Port;
         AppData.BuffSize = mcpsIndication->BufferSize;
         AppData.Buff = mcpsIndication->Buffer;
@@ -413,7 +416,7 @@ static void MlmeIndication(MlmeIndication_t *MlmeIndication)
 /**
  *  lora Init
  */
-void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam)
+void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam, LoRaMacRegion_t region)
 {
   /* init the Tx Duty Cycle*/
   LoRaParamInit = LoRaParam;
@@ -439,6 +442,7 @@ void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam)
   LoRaMacCallbacks.GetBatteryLevel = LoRaMainCallbacks->BoardGetBatteryLevel;
   LoRaMacCallbacks.GetTemperatureLevel = LoRaMainCallbacks->BoardGetTemperatureLevel;
   LoRaMacCallbacks.MacProcessNotify = LoRaMainCallbacks->MacProcessNotify;
+  /*
 #if defined( REGION_AS923 )
   LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_AS923);
   LoRaRegion = LORAMAC_REGION_AS923;
@@ -472,26 +476,33 @@ void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam)
 #else
 #error "Please define a region in the compiler options."
 #endif
+*/
+  LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, region);
+  LoRaRegion = region;
 
 #if defined( HYBRID )
-#if defined( REGION_US915 ) || defined( REGION_AU915 )
-  uint16_t channelMask[] = { 0x00FF, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000};
-  mibReq.Type = MIB_CHANNELS_MASK;
-  mibReq.Param.ChannelsMask = channelMask;
-  LoRaMacMibSetRequestConfirm(&mibReq);
-  mibReq.Type = MIB_CHANNELS_DEFAULT_MASK;
-  mibReq.Param.ChannelsDefaultMask = channelMask;
-  LoRaMacMibSetRequestConfirm(&mibReq);
-#endif
-#if defined( REGION_CN470 )
-  uint16_t channelMask[] = { 0x00FF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000};
-  mibReq.Type = MIB_CHANNELS_MASK;
-  mibReq.Param.ChannelsMask = channelMask;
-  LoRaMacMibSetRequestConfirm(&mibReq);
-  mibReq.Type = MIB_CHANNELS_DEFAULT_MASK;
-  mibReq.Param.ChannelsDefaultMask = channelMask;
-  LoRaMacMibSetRequestConfirm(&mibReq);
-#endif
+//#if defined( REGION_US915 ) || defined( REGION_AU915 )
+  if ((LoRaRegion == LORAMAC_REGION_US915) || (LoRaRegion == LORAMAC_REGION_AU915)) {
+	  uint16_t channelMask[] = { 0x00FF, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000};
+	  mibReq.Type = MIB_CHANNELS_MASK;
+	  mibReq.Param.ChannelsMask = channelMask;
+	  LoRaMacMibSetRequestConfirm(&mibReq);
+	  mibReq.Type = MIB_CHANNELS_DEFAULT_MASK;
+	  mibReq.Param.ChannelsDefaultMask = channelMask;
+	  LoRaMacMibSetRequestConfirm(&mibReq);
+  }
+//#endif
+//#if defined( REGION_CN470 )
+  if (LoRaRegion == LORAMAC_REGION_CN470) {
+	  uint16_t channelMask[] = { 0x00FF, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000};
+	  mibReq.Type = MIB_CHANNELS_MASK;
+	  mibReq.Param.ChannelsMask = channelMask;
+	  LoRaMacMibSetRequestConfirm(&mibReq);
+	  mibReq.Type = MIB_CHANNELS_DEFAULT_MASK;
+	  mibReq.Param.ChannelsDefaultMask = channelMask;
+	  LoRaMacMibSetRequestConfirm(&mibReq);
+  }
+//#endif
 #endif
 
   lora_config_otaa_set(LORA_ENABLE);
@@ -524,13 +535,17 @@ void LORA_Init(LoRaMainCallback_t *callbacks, LoRaParam_t *LoRaParam)
   mibReq.Param.Class = CLASS_A;
   LoRaMacMibSetRequestConfirm(&mibReq);
 
-#if defined( REGION_EU868 ) || defined( REGION_RU864 ) || defined( REGION_CN779 ) || defined( REGION_EU433 )
-  LoRaMacTestSetDutyCycleOn(LORAWAN_DUTYCYCLE_ON);
+//#if defined( REGION_EU868 ) || defined( REGION_RU864 ) || defined( REGION_CN779 ) || defined( REGION_EU433 )
+  if ((LoRaRegion == LORAMAC_REGION_EU868) || (LoRaRegion == LORAMAC_REGION_RU864) || (LoRaRegion == LORAMAC_REGION_CN779) || (LoRaRegion == LORAMAC_REGION_EU433)) {
+	  LoRaMacTestSetDutyCycleOn(LORAWAN_DUTYCYCLE_ON);
 
-  lora_config.duty_cycle = LORA_ENABLE;
-#else
-  lora_config.duty_cycle = LORA_DISABLE;
-#endif
+	  lora_config.duty_cycle = LORA_ENABLE;
+  }
+//#else
+  else {
+	  lora_config.duty_cycle = LORA_DISABLE;
+  }
+//#endif
 
   mibReq.Type = MIB_SYSTEM_MAX_RX_ERROR;
   mibReq.Param.SystemMaxRxError = 20;
@@ -968,6 +983,10 @@ void lora_wan_certif(void)
   TimerSetValue(&TxcertifTimer,  8000);  /* 8s */
   TimerStart(&TxcertifTimer);
 
+}
+
+void TriggerReinit( LoRaMacRegion_t region ) {
+	LORA_Init(LoRaMainCallbacks, LoRaParamInit, region);
 }
 
 LoRaMacRegion_t lora_region_get(void)

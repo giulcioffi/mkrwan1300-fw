@@ -3250,6 +3250,7 @@ LoRaMacStatus_t LoRaMacInitialization( LoRaMacPrimitives_t* primitives, LoRaMacC
     MacCtx.MacCallbacks = callbacks;
     MacCtx.MacFlags.Value = 0;
     MacCtx.MacState = LORAMAC_STOPPED;
+    MacCtx.McpsIndication.Region = region;
 
     // Reset duty cycle times
     MacCtx.NvmCtx->LastTxDoneTime = 0;

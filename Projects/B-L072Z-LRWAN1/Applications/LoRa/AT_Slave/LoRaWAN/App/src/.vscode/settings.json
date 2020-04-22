@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "MAIN.C": "cpp"
+        "MAIN.C": "cpp",
+        "DEBUG.C": "cpp",
+        "COMMAND.C": "cpp",
+        "TINY_SSCANF.C": "cpp",
+        "LORA.C": "cpp"
     }
 }

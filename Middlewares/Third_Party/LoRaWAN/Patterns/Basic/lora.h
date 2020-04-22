@@ -32,8 +32,9 @@ Maintainer: Miguel Luis, Gregory Cristian and Wael Guibene
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 
-#ifndef __LORA_MAIN_H__
-#define __LORA_MAIN_H__
+#ifndef __LORA_H__
+#define __LORA_H__
+//LORA_MAIN_H
 
 #ifdef __cplusplus
  extern "C" {
@@ -223,7 +224,7 @@ bool LORA_send(lora_AppData_t* AppData, LoraConfirm_t IsTxConfirmed);
  * @param [IN] none
  * @retval none
  */
-void LORA_Join( void);
+LoraErrorStatus LORA_Join( void);		//void before
 
 /**
  * @brief Check whether the Device is joined to the network
@@ -252,6 +253,7 @@ void LORA_GetCurrentClass( DeviceClass_t *currentClass );
 }
 #endif
 
-#endif /*__LORA_MAIN_H__*/
+ //LORA_MAIN_H
+#endif /*__LORA_H__*/
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

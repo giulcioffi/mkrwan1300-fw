@@ -1,6 +1,6 @@
-10:30:52 **** Incremental Build of configuration Debug for project mlm32l07x01 ****
+18:14:24 **** Incremental Build of configuration Debug for project mlm32l07x01 ****
 make all 
 make: Nothing to be done for 'all'.
 
-10:30:55 Build Finished (took 2s.597ms)
+18:14:26 Build Finished (took 1s.776ms)
 
