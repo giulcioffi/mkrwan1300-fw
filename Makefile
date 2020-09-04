@@ -44,7 +44,8 @@ DEFINES = \
 	  -DREGION_IN865 \
 	  -DREGION_KR920 \
 	  -DREGION_US915 \
-	  -DREGION_RU864 
+	  -DREGION_RU864 \
+	  -DREGION_AU915_TTN
 
 INCLUDES = \
      -IProjects/B-L072Z-LRWAN1/Applications/LoRa/AT_Slave/LoRaWAN/App/LoRaWAN/App/inc \

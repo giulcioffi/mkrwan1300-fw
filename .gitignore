@@ -1,4 +1,6 @@
 mlm32l07x01.*
+# test binary
+!FWbinary/mlm32l07x01.bin
 fw.h
 *.o
 *.d
