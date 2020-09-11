@@ -102,6 +102,7 @@ OBJS = \
        Middlewares/Third_Party/LoRaWAN/Mac/region/Region.o \
        Middlewares/Third_Party/LoRaWAN/Mac/region/RegionAS923.o \
        Middlewares/Third_Party/LoRaWAN/Mac/region/RegionAU915.o \
+       Middlewares/Third_Party/LoRaWAN/Mac/region/RegionAU915_TTN.o \
        Middlewares/Third_Party/LoRaWAN/Mac/region/RegionCN470.o \
        Middlewares/Third_Party/LoRaWAN/Mac/region/RegionCN779.o \
        Middlewares/Third_Party/LoRaWAN/Mac/region/RegionCommon.o \
