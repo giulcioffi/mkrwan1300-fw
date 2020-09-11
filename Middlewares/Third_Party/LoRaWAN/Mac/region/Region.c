@@ -631,7 +631,7 @@ bool RegionIsActive( LoRaMacRegion_t region )
     {
         AS923_IS_ACTIVE( );
         AU915_IS_ACTIVE( );
-		AU915_TTN_IS_ACTIVE( );
+        AU915_TTN_IS_ACTIVE( );
         CN470_IS_ACTIVE( );
         CN779_IS_ACTIVE( );
         EU433_IS_ACTIVE( );
